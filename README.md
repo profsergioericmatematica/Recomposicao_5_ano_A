@@ -1,8 +1,8 @@
 # 📐 Projeto Integrador V – Recomposição Matemática – Turma A
 
-Este repositório contém a **solução interativa** desenvolvida para a **Turma A (5º Ano – Matutino)** da escola parceira, no âmbito do Projeto Integrador V da UNIVESP.
+Este repositório contém a **solução interativa** desenvolvida para a **Turma A (5º Ano – Matutino)** da escola parceira, no âmbito do Projeto Integrador V da UNIVESP - 2026.
 
-O site foi projetado a partir dos resultados da avaliação diagnóstica aplicada em 27 de agosto de 2026, que identificou as principais defasagens matemáticas dos estudantes. Cada módulo interativo atua diretamente sobre os descritores críticos do Saeb, com o objetivo de promover a recomposição das aprendizagens de forma lúdica, visual e acessível.
+O site foi projetado a partir dos resultados da avaliação diagnóstica aplicada, que identificou as principais defasagens matemáticas dos estudantes. Cada módulo interativo atua diretamente sobre os descritores críticos do Saeb, com o objetivo de promover a recomposição das aprendizagens de forma lúdica, visual e acessível.
 
 ---
 
@@ -109,8 +109,5 @@ Este projeto é de uso educacional e acadêmico, desenvolvido no âmbito da UNIV
 
 Para dúvidas ou sugestões, entre em contato com a equipe por meio dos polos da UNIVESP ou via issues neste repositório.
 
----
-
-**Guaratinguetá, Lagoinha, Taubaté e São José dos Campos – SP, 2026**
 
 ---
