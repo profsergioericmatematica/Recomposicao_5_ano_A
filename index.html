@@ -177,6 +177,7 @@ body {
 canvas {
     border: 1px solid #ccc;
     background-color: white;
+    
     max-width: 100%;
     height: auto;
     display: block;
@@ -538,6 +539,11 @@ canvas {
 </div>
 
 <script>
+    // Controle de animações
+let animacaoQ15 = null;
+let animacaoQ20 = null;
+let animacaoQ22 = null;
+let animacaoQ13 = null;
     // Função toggle para respostas
     function toggleResposta(button) {
         const resposta = button.nextElementSibling;
@@ -615,53 +621,86 @@ canvas {
     }
 
     function iniciarPerimetroA() {
-        if (!estadoA.figuraAtual) { document.getElementById('infoCanvas').textContent = "Selecione uma figura!"; return; }
-        let passos = figurasData[estadoA.figuraAtual].passos; let i = 0;
-        const info = document.getElementById('infoCanvas');
-        info.textContent = "Contando os lados...";
-        desenharBase(ctxA, estadoA);
-        function animar() {
-            if (i < passos.length) {
-                const p = passos[i];
-                ctxA.strokeStyle = 'blue'; ctxA.lineWidth = 3;
-                ctxA.beginPath(); ctxA.moveTo(offset + p.x1 * escala, offset + p.y1 * escala); ctxA.lineTo(offset + p.x2 * escala, offset + p.y2 * escala); ctxA.stroke();
-                const meioX = offset + ((p.x1 + p.x2) / 2) * escala; const meioY = offset + ((p.y1 + p.y2) / 2) * escala;
-                ctxA.fillStyle = 'blue'; ctxA.font = 'bold 18px Arial'; ctxA.textAlign = 'center'; ctxA.textBaseline = 'middle';
-                ctxA.fillText(p.num, meioX, meioY);
-                info.textContent = `Figura ${estadoA.figuraAtual}: Lado ${p.num}`;
-                i++; setTimeout(animar, 400); 
-            } else {
-                info.textContent = `Perímetro total da Figura ${estadoA.figuraAtual}: ${passos.length} lados!`;
-                atualizarTabela(estadoA.figuraAtual, 'perimetro', passos.length);
-            }
-        }
-        animar();
+    if (animacaoQ20) {
+        clearTimeout(animacaoQ20);
+        animacaoQ20 = null;
     }
+    if (!estadoA.figuraAtual) { document.getElementById('infoCanvas').textContent = "Selecione uma figura!"; return; }
+    let passos = figurasData[estadoA.figuraAtual].passos;
+    let i = 0;
+    const info = document.getElementById('infoCanvas');
+    info.textContent = "Contando os lados...";
+    desenharBase(ctxA, estadoA);
+    function animar() {
+        if (i < passos.length) {
+            const p = passos[i];
+            ctxA.strokeStyle = 'blue';
+            ctxA.lineWidth = 3;
+            ctxA.beginPath();
+            ctxA.moveTo(offset + p.x1 * escala, offset + p.y1 * escala);
+            ctxA.lineTo(offset + p.x2 * escala, offset + p.y2 * escala);
+            ctxA.stroke();
+            const meioX = offset + ((p.x1 + p.x2) / 2) * escala;
+            const meioY = offset + ((p.y1 + p.y2) / 2) * escala;
+            ctxA.fillStyle = 'blue';
+            ctxA.font = 'bold 18px Arial';
+            ctxA.textAlign = 'center';
+            ctxA.textBaseline = 'middle';
+            ctxA.fillText(p.num, meioX, meioY);
+            info.textContent = `Figura ${estadoA.figuraAtual}: Lado ${p.num}`;
+            i++;
+            animacaoQ20 = setTimeout(animar, 400);
+        } else {
+            info.textContent = `Perímetro total da Figura ${estadoA.figuraAtual}: ${passos.length} lados!`;
+            atualizarTabela(estadoA.figuraAtual, 'perimetro', passos.length);
+            animacaoQ20 = null;
+        }
+    }
+    animar();
+}
 
-    function iniciarAreaA() {
-        if (!estadoA.figuraAtual) { document.getElementById('infoCanvas').textContent = "Selecione uma figura!"; return; }
-        let quadrados = figurasData[estadoA.figuraAtual].squares; let i = 0;
-        const info = document.getElementById('infoCanvas');
-        info.textContent = "Contando quadradinhos...";
-        desenharBase(ctxA, estadoA);
-        function animar() {
-            if (i < quadrados.length) {
-                const q = quadrados[i];
-                ctxA.fillStyle = 'rgba(0, 123, 255, 0.5)';
-                ctxA.fillRect(offset + q.x * escala, offset + q.y * escala, escala, escala);
-                ctxA.fillStyle = 'green'; ctxA.font = 'bold 20px Arial'; ctxA.textAlign = 'center'; ctxA.textBaseline = 'middle';
-                ctxA.fillText(i + 1, offset + q.x * escala + escala/2, offset + q.y * escala + escala/2);
-                info.textContent = `Figura ${estadoA.figuraAtual}: Quadradinho ${i + 1}`;
-                i++; setTimeout(animar, 250);
-            } else {
-                info.textContent = `Área total da Figura ${estadoA.figuraAtual}: ${quadrados.length} quadrados!`;
-                atualizarTabela(estadoA.figuraAtual, 'area', quadrados.length);
-            }
-        }
-        animar();
+function iniciarAreaA() {
+    if (animacaoQ20) {
+        clearTimeout(animacaoQ20);
+        animacaoQ20 = null;
     }
+    if (!estadoA.figuraAtual) { document.getElementById('infoCanvas').textContent = "Selecione uma figura!"; return; }
+    let quadrados = figurasData[estadoA.figuraAtual].squares;
+    let i = 0;
+    const info = document.getElementById('infoCanvas');
+    info.textContent = "Contando quadradinhos...";
+    desenharBase(ctxA, estadoA);
+    function animar() {
+        if (i < quadrados.length) {
+            const q = quadrados[i];
+            ctxA.fillStyle = 'rgba(0, 123, 255, 0.5)';
+            ctxA.fillRect(offset + q.x * escala, offset + q.y * escala, escala, escala);
+            ctxA.fillStyle = 'green';
+            ctxA.font = 'bold 20px Arial';
+            ctxA.textAlign = 'center';
+            ctxA.textBaseline = 'middle';
+            ctxA.fillText(i + 1, offset + q.x * escala + escala/2, offset + q.y * escala + escala/2);
+            info.textContent = `Figura ${estadoA.figuraAtual}: Quadradinho ${i + 1}`;
+            i++;
+            animacaoQ20 = setTimeout(animar, 250);
+        } else {
+            info.textContent = `Área total da Figura ${estadoA.figuraAtual}: ${quadrados.length} quadrados!`;
+            atualizarTabela(estadoA.figuraAtual, 'area', quadrados.length);
+            animacaoQ20 = null;
+        }
+    }
+    animar();
+}
+
+   
 
     function resetarCanvasA() {
+
+        if (animacaoQ20) {
+        clearTimeout(animacaoQ20);
+        animacaoQ20 = null;
+        }
+
         estadoA.figuraAtual = null;
         document.getElementById('infoCanvas').textContent = "Clique em uma figura.";
         for (let fig of ['A', 'B', 'C', 'D']) { document.getElementById('per' + fig).textContent = '-'; document.getElementById('area' + fig).textContent = '-'; }
@@ -681,47 +720,155 @@ canvas {
         ctxQ15.strokeStyle = '#000'; ctxQ15.lineWidth = 2; ctxQ15.strokeRect(offsetXQ15, offsetYQ15, colunasQ15 * escalaQ15, linhasQ15 * escalaQ15);
     }
     function iniciarPerimetroQ15() {
-        resetarCanvasQ15(); let i = 0;
-        let passos = [];
-        for (let x = 0; x < colunasQ15; x++) passos.push({x1: x, y1: 0, x2: x+1, y2: 0});
-        for (let y = 0; y < linhasQ15; y++) passos.push({x1: 15, y1: y, x2: 15, y2: y+1});
-        for (let x = colunasQ15; x > 0; x--) passos.push({x1: x, y1: 10, x2: x-1, y2: 10});
-        for (let y = linhasQ15; y > 0; y--) passos.push({x1: 0, y1: y, x2: 0, y2: y-1});
-        function animar() {
-            if (i < passos.length) {
-                const p = passos[i];
-                ctxQ15.strokeStyle = 'blue'; ctxQ15.lineWidth = 3; ctxQ15.beginPath(); ctxQ15.moveTo(offsetXQ15 + p.x1 * escalaQ15, offsetYQ15 + p.y1 * escalaQ15); ctxQ15.lineTo(offsetXQ15 + p.x2 * escalaQ15, offsetYQ15 + p.y2 * escalaQ15); ctxQ15.stroke();
-                const meioX = offsetXQ15 + ((p.x1 + p.x2) / 2) * escalaQ15; const meioY = offsetYQ15 + ((p.y1 + p.y2) / 2) * escalaQ15;
-                ctxQ15.fillStyle = 'red'; ctxQ15.font = 'bold 16px Arial'; ctxQ15.textAlign = 'center'; ctxQ15.textBaseline = 'middle'; ctxQ15.fillText(i + 1, meioX, meioY);
-                document.getElementById('infoCanvasQ15').textContent = `Lado ${i + 1} de ${passos.length}`;
-                i++; setTimeout(animar, 100); 
-            } else { document.getElementById('infoCanvasQ15').textContent = `Perímetro total: ${passos.length} lados (50 m)`; }
+    // Cancela animação anterior
+    if (animacaoQ15) {
+        // Se for um array de timeouts (caso do passoAPassoQ15), limpa todos
+        if (Array.isArray(animacaoQ15)) {
+            animacaoQ15.forEach(t => clearTimeout(t));
+        } else {
+            clearTimeout(animacaoQ15);
         }
-        animar();
+        animacaoQ15 = null;
     }
-    function iniciarAreaQ15() {
-        resetarCanvasQ15(); let i = 0; const total = colunasQ15 * linhasQ15;
-        function animar() {
-            if (i < total) {
-                let linha = Math.floor(i / colunasQ15); let coluna = i % colunasQ15;
-                ctxQ15.fillStyle = 'rgba(0, 123, 255, 0.5)'; ctxQ15.fillRect(offsetXQ15 + coluna * escalaQ15, offsetYQ15 + linha * escalaQ15, escalaQ15, escalaQ15);
-                ctxQ15.fillStyle = 'green'; ctxQ15.font = 'bold 14px Arial'; ctxQ15.textAlign = 'center'; ctxQ15.textBaseline = 'middle'; ctxQ15.fillText(i + 1, offsetXQ15 + coluna * escalaQ15 + escalaQ15/2, offsetYQ15 + linha * escalaQ15 + escalaQ15/2);
-                document.getElementById('infoCanvasQ15').textContent = `Quadradinho ${i + 1} de ${total}`;
-                i++; setTimeout(animar, 20); 
-            } else { document.getElementById('infoCanvasQ15').textContent = `Área total: ${total} quadrados (150 m²)`; }
+    resetarCanvasQ15();
+    let i = 0;
+    let passos = [];
+    for (let x = 0; x < colunasQ15; x++) passos.push({x1: x, y1: 0, x2: x+1, y2: 0});
+    for (let y = 0; y < linhasQ15; y++) passos.push({x1: 15, y1: y, x2: 15, y2: y+1});
+    for (let x = colunasQ15; x > 0; x--) passos.push({x1: x, y1: 10, x2: x-1, y2: 10});
+    for (let y = linhasQ15; y > 0; y--) passos.push({x1: 0, y1: y, x2: 0, y2: y-1});
+
+    function animar() {
+        if (i < passos.length) {
+            const p = passos[i];
+            ctxQ15.strokeStyle = 'blue';
+            ctxQ15.lineWidth = 3;
+            ctxQ15.beginPath();
+            ctxQ15.moveTo(offsetXQ15 + p.x1 * escalaQ15, offsetYQ15 + p.y1 * escalaQ15);
+            ctxQ15.lineTo(offsetXQ15 + p.x2 * escalaQ15, offsetYQ15 + p.y2 * escalaQ15);
+            ctxQ15.stroke();
+            const meioX = offsetXQ15 + ((p.x1 + p.x2) / 2) * escalaQ15;
+            const meioY = offsetYQ15 + ((p.y1 + p.y2) / 2) * escalaQ15;
+            ctxQ15.fillStyle = 'red';
+            ctxQ15.font = 'bold 16px Arial';
+            ctxQ15.textAlign = 'center';
+            ctxQ15.textBaseline = 'middle';
+            ctxQ15.fillText(i + 1, meioX, meioY);
+            document.getElementById('infoCanvasQ15').textContent = `Lado ${i + 1} de ${passos.length}`;
+            i++;
+            animacaoQ15 = setTimeout(animar, 100);
+        } else {
+            document.getElementById('infoCanvasQ15').textContent = `Perímetro total: ${passos.length} lados (50 m)`;
+            animacaoQ15 = null;
         }
-        animar();
     }
-    function passoAPassoQ15() {
-        resetarCanvasQ15();
-        setTimeout(() => { ctxQ15.strokeStyle = '#007bff'; ctxQ15.lineWidth = 6; ctxQ15.beginPath(); ctxQ15.moveTo(offsetXQ15, offsetYQ15); ctxQ15.lineTo(offsetXQ15 + colunasQ15 * escalaQ15, offsetYQ15); ctxQ15.stroke(); }, 0);
-        setTimeout(() => { ctxQ15.strokeStyle = '#007bff'; ctxQ15.beginPath(); ctxQ15.moveTo(offsetXQ15, offsetYQ15 + linhasQ15 * escalaQ15); ctxQ15.lineTo(offsetXQ15 + colunasQ15 * escalaQ15, offsetYQ15 + linhasQ15 * escalaQ15); ctxQ15.stroke(); }, 500);
-        setTimeout(() => { ctxQ15.strokeStyle = '#28a745'; ctxQ15.beginPath(); ctxQ15.moveTo(offsetXQ15 + colunasQ15 * escalaQ15, offsetYQ15); ctxQ15.lineTo(offsetXQ15 + colunasQ15 * escalaQ15, offsetYQ15 + linhasQ15 * escalaQ15); ctxQ15.stroke(); }, 1000);
-        setTimeout(() => { ctxQ15.strokeStyle = '#28a745'; ctxQ15.beginPath(); ctxQ15.moveTo(offsetXQ15, offsetYQ15); ctxQ15.lineTo(offsetXQ15, offsetYQ15 + linhasQ15 * escalaQ15); ctxQ15.stroke(); }, 1500);
-        setTimeout(() => { ctxQ15.font = 'bold 22px Arial'; ctxQ15.textAlign = 'left'; ctxQ15.fillStyle = '#007bff'; ctxQ15.fillText('15 + 15 = 30', 30, 120); }, 2000);
-        setTimeout(() => { ctxQ15.fillStyle = '#28a745'; ctxQ15.fillText('10 + 10 = 20', 30, 150); }, 2500);
-        setTimeout(() => { ctxQ15.font = 'bold 26px Arial'; let x = 30, y = 190; ctxQ15.fillStyle = '#007bff'; ctxQ15.fillText('30', x, y); x += ctxQ15.measureText('30').width; ctxQ15.fillStyle = '#000'; ctxQ15.fillText(' + ', x, y); x += ctxQ15.measureText(' + ').width; ctxQ15.fillStyle = '#28a745'; ctxQ15.fillText('20', x, y); x += ctxQ15.measureText('20').width; ctxQ15.fillStyle = '#000'; ctxQ15.fillText(' = ', x, y); x += ctxQ15.measureText(' = ').width; ctxQ15.fillStyle = '#000'; ctxQ15.fillText('50', x, y); }, 3000);
+    animar();
+}
+   function iniciarAreaQ15() {
+    if (animacaoQ15) {
+        if (Array.isArray(animacaoQ15)) {
+            animacaoQ15.forEach(t => clearTimeout(t));
+        } else {
+            clearTimeout(animacaoQ15);
+        }
+        animacaoQ15 = null;
     }
+    resetarCanvasQ15();
+    let i = 0;
+    const total = colunasQ15 * linhasQ15;
+    function animar() {
+        if (i < total) {
+            let linha = Math.floor(i / colunasQ15);
+            let coluna = i % colunasQ15;
+            ctxQ15.fillStyle = 'rgba(0, 123, 255, 0.5)';
+            ctxQ15.fillRect(offsetXQ15 + coluna * escalaQ15, offsetYQ15 + linha * escalaQ15, escalaQ15, escalaQ15);
+            ctxQ15.fillStyle = 'green';
+            ctxQ15.font = 'bold 14px Arial';
+            ctxQ15.textAlign = 'center';
+            ctxQ15.textBaseline = 'middle';
+            ctxQ15.fillText(i + 1, offsetXQ15 + coluna * escalaQ15 + escalaQ15/2, offsetYQ15 + linha * escalaQ15 + escalaQ15/2);
+            document.getElementById('infoCanvasQ15').textContent = `Quadradinho ${i + 1} de ${total}`;
+            i++;
+            animacaoQ15 = setTimeout(animar, 20);
+        } else {
+            document.getElementById('infoCanvasQ15').textContent = `Área total: ${total} quadrados (150 m²)`;
+            animacaoQ15 = null;
+        }
+    }
+    animar();
+}
+   function passoAPassoQ15() {
+    // Cancela animação anterior (se for um array, limpa todos)
+    if (animacaoQ15) {
+        if (Array.isArray(animacaoQ15)) {
+            animacaoQ15.forEach(t => clearTimeout(t));
+        } else {
+            clearTimeout(animacaoQ15);
+        }
+        animacaoQ15 = null;
+    }
+    resetarCanvasQ15();
+    let timeouts = [];
+    timeouts.push(setTimeout(() => {
+        ctxQ15.strokeStyle = '#007bff';
+        ctxQ15.lineWidth = 6;
+        ctxQ15.beginPath();
+        ctxQ15.moveTo(offsetXQ15, offsetYQ15);
+        ctxQ15.lineTo(offsetXQ15 + colunasQ15 * escalaQ15, offsetYQ15);
+        ctxQ15.stroke();
+    }, 0));
+    timeouts.push(setTimeout(() => {
+        ctxQ15.strokeStyle = '#007bff';
+        ctxQ15.beginPath();
+        ctxQ15.moveTo(offsetXQ15, offsetYQ15 + linhasQ15 * escalaQ15);
+        ctxQ15.lineTo(offsetXQ15 + colunasQ15 * escalaQ15, offsetYQ15 + linhasQ15 * escalaQ15);
+        ctxQ15.stroke();
+    }, 500));
+    timeouts.push(setTimeout(() => {
+        ctxQ15.strokeStyle = '#28a745';
+        ctxQ15.beginPath();
+        ctxQ15.moveTo(offsetXQ15 + colunasQ15 * escalaQ15, offsetYQ15);
+        ctxQ15.lineTo(offsetXQ15 + colunasQ15 * escalaQ15, offsetYQ15 + linhasQ15 * escalaQ15);
+        ctxQ15.stroke();
+    }, 1000));
+    timeouts.push(setTimeout(() => {
+        ctxQ15.strokeStyle = '#28a745';
+        ctxQ15.beginPath();
+        ctxQ15.moveTo(offsetXQ15, offsetYQ15);
+        ctxQ15.lineTo(offsetXQ15, offsetYQ15 + linhasQ15 * escalaQ15);
+        ctxQ15.stroke();
+    }, 1500));
+    timeouts.push(setTimeout(() => {
+        ctxQ15.font = 'bold 22px Arial';
+        ctxQ15.textAlign = 'left';
+        ctxQ15.fillStyle = '#007bff';
+        ctxQ15.fillText('15 + 15 = 30', 30, 120);
+    }, 2000));
+    timeouts.push(setTimeout(() => {
+        ctxQ15.fillStyle = '#28a745';
+        ctxQ15.fillText('10 + 10 = 20', 30, 150);
+    }, 2500));
+    timeouts.push(setTimeout(() => {
+        ctxQ15.font = 'bold 26px Arial';
+        let x = 30, y = 190;
+        ctxQ15.fillStyle = '#007bff';
+        ctxQ15.fillText('30', x, y);
+        x += ctxQ15.measureText('30').width;
+        ctxQ15.fillStyle = '#000';
+        ctxQ15.fillText(' + ', x, y);
+        x += ctxQ15.measureText(' + ').width;
+        ctxQ15.fillStyle = '#28a745';
+        ctxQ15.fillText('20', x, y);
+        x += ctxQ15.measureText('20').width;
+        ctxQ15.fillStyle = '#000';
+        ctxQ15.fillText(' = ', x, y);
+        x += ctxQ15.measureText(' = ').width;
+        ctxQ15.fillStyle = '#000';
+        ctxQ15.fillText('50', x, y);
+    }, 3000));
+    // Armazena o array de timeouts para cancelamento
+    animacaoQ15 = timeouts;
+}
     function calcularFormulaQ15() {
         resetarCanvasQ15();
         ctxQ15.strokeStyle = '#ff9800'; ctxQ15.lineWidth = 6; ctxQ15.beginPath(); ctxQ15.moveTo(offsetXQ15, offsetYQ15 + linhasQ15 * escalaQ15); ctxQ15.lineTo(offsetXQ15 + colunasQ15 * escalaQ15, offsetYQ15 + linhasQ15 * escalaQ15); ctxQ15.stroke();
@@ -730,7 +877,18 @@ canvas {
         ctxQ15.fillStyle = '#4caf50'; ctxQ15.fillText('ALT = 10', offsetXQ15 + colunasQ15 * escalaQ15 + 20, offsetYQ15 + (linhasQ15 * escalaQ15)/2);
         ctxQ15.fillStyle = '#d32f2f'; ctxQ15.font = 'bold 22px Arial'; ctxQ15.textAlign = 'left'; ctxQ15.fillText('P = 2 × (15 + 10)', 30, 150); ctxQ15.fillText('P = 2 × 25', 30, 180); ctxQ15.fillText('P = 50 m', 30, 210);
     }
-    function resetarCanvasQ15() { document.getElementById('infoCanvasQ15').textContent = "Clique em uma opção."; desenharBaseQ15(); }
+    function resetarCanvasQ15() {
+    if (animacaoQ15) {
+        if (Array.isArray(animacaoQ15.timeouts)) {
+            animacaoQ15.timeouts.forEach(t => clearTimeout(t));
+        } else {
+            clearTimeout(animacaoQ15);
+        }
+        animacaoQ15 = null;
+    }
+    document.getElementById('infoCanvasQ15').textContent = "Clique em uma opção.";
+    desenharBaseQ15();
+}
 
     // Q22 Lupa A
     function desenharBaseQ22(canvasId, infoId) {
@@ -746,14 +904,17 @@ canvas {
 
 
     function animarLupaQ22() {
+    // Cancela animação anterior
+    if (animacaoQ22) {
+        clearInterval(animacaoQ22);
+        animacaoQ22 = null;
+    }
     var canvasId = 'canvasQ22', infoId = 'infoQ22';
     var canvas = document.getElementById(canvasId), ctx = canvas.getContext('2d'), info = document.getElementById(infoId);
     var mil = 0, totalMil = 45;
-    var interval = setInterval(function() {
-        // 🔁 Redesenha a régua base (limpa tudo e refaz o fundo)
+    desenharBaseQ22(canvasId, infoId);
+    animacaoQ22 = setInterval(function() {
         desenharBaseQ22(canvasId, infoId);
-
-        // Desenha as marcas de milímetros até o valor atual
         ctx.strokeStyle = '#d32f2f';
         ctx.lineWidth = 1.5;
         ctx.beginPath();
@@ -767,8 +928,6 @@ canvas {
             ctx.fillText(i + 1, mmX, 80);
         }
         ctx.stroke();
-
-        // Desenha a lupa na posição atual
         var lupaX = 20 + ((mil + 1) / 10) * 92;
         var lupaY = 70;
         ctx.beginPath();
@@ -778,26 +937,28 @@ canvas {
         ctx.strokeStyle = '#333';
         ctx.lineWidth = 3;
         ctx.stroke();
-
-        // Texto com a contagem em mm
         ctx.fillStyle = '#333';
         ctx.font = 'bold 14px Arial';
         ctx.textAlign = 'center';
         ctx.fillText(mil + ' mm', lupaX, lupaY - 50);
-
         info.textContent = "Lupa em " + (mil / 10).toFixed(1) + " cm... (mm: " + mil + ")";
         mil++;
-
         if (mil > totalMil) {
-            clearInterval(interval);
+            clearInterval(animacaoQ22);
+            animacaoQ22 = null;
             info.textContent = "45 milímetros marcados! 4,5 cm × 10 = 45 mm";
         }
     }, 60);
 }
 
 
-
-    function resetarLupaQ22() { desenharBaseQ22('canvasQ22', 'infoQ22'); }
+    function resetarLupaQ22() {
+    if (animacaoQ22) {
+        clearInterval(animacaoQ22);
+        animacaoQ22 = null;
+    }
+    desenharBaseQ22('canvasQ22', 'infoQ22');
+}
 
     // Porcentagens
     function desenharBarraTotal(ctx, canvas) {
@@ -854,150 +1015,105 @@ let passoDivisao = 0;
 let intervaloDivisao = null;
 
 function animarDivisaoQ13() {
+    // Cancela animação anterior
+    if (intervaloDivisao) {
+        clearInterval(intervaloDivisao);
+        intervaloDivisao = null;
+    }
     const canvas = document.getElementById('canvasQ13');
     const ctx = canvas.getContext('2d');
     const info = document.getElementById('infoQ13');
-
-    // Limpa e configura o canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.font = 'bold 28px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
-    // Configuração de layout (como um caderno)
-    const xInicio = 80;   // Coluna inicial do primeiro dígito do dividendo (3)
-    const gapDigito = 30; // Espaço entre os dígitos do dividendo
-    const yTopo = 70;     // Linha de cima (onde fica o 3045)
-    const yQuociente = 50; // Linha onde fica a resposta (1 0 1 5)
+    const xInicio = 80;
+    const gapDigito = 30;
+    const yTopo = 70;
+    const yQuociente = 50;
+    const x1 = xInicio, x2 = xInicio + gapDigito, x3 = xInicio + 2 * gapDigito, x4 = xInicio + 3 * gapDigito;
+    const xQ1 = x4 + 80, xQ2 = xQ1 + gapDigito, xQ3 = xQ2 + gapDigito, xQ4 = xQ3 + gapDigito;
 
-    // Posições X de cada dígito do dividendo
-    const x1 = xInicio;
-    const x2 = xInicio + gapDigito;
-    const x3 = xInicio + 2 * gapDigito;
-    const x4 = xInicio + 3 * gapDigito;
-
-    // Posição do quociente (afastado para a direita, como no papel)
-    const xQ1 = x4 + 80;
-    const xQ2 = xQ1 + gapDigito;
-    const xQ3 = xQ2 + gapDigito;
-    const xQ4 = xQ3 + gapDigito;
-
-    // 1. Desenhar a parte fixa (Dividendo, Divisor e Chave)
     ctx.fillStyle = '#333';
-    // Divisor (3) à esquerda
     ctx.fillText('3', xInicio + 150, yTopo);
-    
-    // Dividendo (3 0 4 5) no topo
     ctx.fillText('3', x1, yTopo);
     ctx.fillText('0', x2, yTopo);
     ctx.fillText('4', x3, yTopo);
     ctx.fillText('5', x4, yTopo);
 
- 
-
-    // Chave da Divisão (Linha em L que envolve o dividendo)
     ctx.beginPath();
-    ctx.moveTo(xInicio + 130, yTopo - 20);  // Topo esquerdo (ao lado do 3)
-    ctx.lineTo(xInicio + 130, yTopo + 30); // Desce a linha vertical
-    ctx.lineTo(xQ4 + 20, yTopo + 30);     // Vai para a direita embaixo
+    ctx.moveTo(xInicio + 130, yTopo - 20);
+    ctx.lineTo(xInicio + 130, yTopo + 30);
+    ctx.lineTo(xQ4 + 20, yTopo + 30);
     ctx.stroke();
 
-    // Zera passos e inicia
     passoDivisao = 0;
     info.textContent = "Preparando a conta armada...";
 
     function executarPasso() {
         passoDivisao++;
         ctx.font = 'bold 32px Arial';
-        
         if (passoDivisao === 1) {
-            // Passo 1: 3 ÷ 3 = 1
             ctx.fillStyle = '#d32f2f';
-            ctx.fillText('1', xQ1, yQuociente+70); // Quociente
-
-            // -3 (multiplicação)
+            ctx.fillText('1', xQ1, yQuociente+70);
             ctx.fillStyle = '#2e7d32';
             ctx.fillText('-3', x1, yTopo + 40);
-            // Linha da subtração
             ctx.beginPath();
             ctx.moveTo(x1 - 20, yTopo + 52);
             ctx.lineTo(x1 + 20, yTopo + 52);
             ctx.stroke();
-
-            // Resultado 0
             ctx.fillText('0', x1, yTopo + 75);
-
-            // Desce o 0
             ctx.fillStyle = '#333';
             ctx.fillText('0', x2, yTopo + 75);
             info.textContent = "1º: 3 ÷ 3 = 1 (3 - 3 = 0)";
-        } 
-        else if (passoDivisao === 2) {
-            // Passo 2: 0 ÷ 3 = 0
+        } else if (passoDivisao === 2) {
             ctx.fillStyle = '#d32f2f';
             ctx.fillText('0', xQ2, yQuociente+70);
-
             ctx.fillStyle = '#2e7d32';
             ctx.fillText('-0', x2, yTopo + 105);
             ctx.beginPath();
             ctx.moveTo(x2 - 20, yTopo + 117);
             ctx.lineTo(x2 + 20, yTopo + 117);
             ctx.stroke();
-
             ctx.fillText('0', x2, yTopo + 140);
-
-            // Desce o 4
             ctx.fillStyle = '#333';
             ctx.fillText('4', x3, yTopo + 140);
             info.textContent = "2º: 0 ÷ 3 = 0 (0 - 0 = 0)";
-        }
-        else if (passoDivisao === 3) {
-            // Passo 3: 4 ÷ 3 = 1 (resta 1)
+        } else if (passoDivisao === 3) {
             ctx.fillStyle = '#d32f2f';
             ctx.fillText('1', xQ3, yQuociente+70);
-
             ctx.fillStyle = '#2e7d32';
             ctx.fillText('-3', x3, yTopo + 170);
             ctx.beginPath();
             ctx.moveTo(x3 - 20, yTopo + 182);
             ctx.lineTo(x3 + 20, yTopo + 182);
             ctx.stroke();
-
             ctx.fillText('1', x3, yTopo + 205);
-
-            // Desce o 5 (formando 15)
             ctx.fillStyle = '#333';
             ctx.fillText('5', x4, yTopo + 205);
             info.textContent = "3º: 4 ÷ 3 = 1 (4 - 3 = 1)";
-        }
-        else if (passoDivisao === 4) {
-            // Passo 4: 15 ÷ 3 = 5
+        } else if (passoDivisao === 4) {
             ctx.fillStyle = '#d32f2f';
             ctx.fillText('5', xQ4, yQuociente+70);
-
             ctx.fillStyle = '#2e7d32';
             ctx.fillText('-1 5', x4 - 30, yTopo + 235);
             ctx.beginPath();
             ctx.moveTo(x4 - 40, yTopo + 247);
             ctx.lineTo(x4 + 20, yTopo + 247);
             ctx.stroke();
-
             ctx.fillText('0', x4 - 10, yTopo + 270);
             info.textContent = "4º: 15 ÷ 3 = 5 (15 - 15 = 0)";
-        }
-        else if (passoDivisao === 5) {
-            // Resultado final
+        } else if (passoDivisao === 5) {
             ctx.fillStyle = '#d32f2f';
             ctx.font = 'bold 36px Arial';
-            
             info.textContent = "Resultado: 3045 ÷ 3 = 1015";
-        }
-        else {
+        } else {
             clearInterval(intervaloDivisao);
+            intervaloDivisao = null;
             info.textContent = "Fim da conta! 3045 ÷ 3 = 1015";
         }
     }
-
     intervaloDivisao = setInterval(executarPasso, 1500);
 }
 
