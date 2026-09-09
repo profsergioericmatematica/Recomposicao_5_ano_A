@@ -200,6 +200,61 @@
         border-radius: 12px;
     }
 }
+
+
+/* ===== MODAL ===== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    overflow: auto;
+    padding: 20px;
+}
+.modal-conteudo {
+    background: white;
+    margin: auto;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 90%;
+    max-height: 90vh;
+    text-align: center;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.modal-fechar {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+}
+.modal-fechar:hover {
+    color: #d32f2f;
+}
+.btn-imagem {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+    margin: 5px 0;
+    font-size: 0.95rem;
+}
+.btn-imagem:hover {
+    background: #5a6268;
+    transform: scale(1.03);
+}
     
     </style>
 </head>
@@ -227,6 +282,8 @@
         <h3>1. Perímetro do Retângulo (Q15)</h3>
         <div class="exemplo-box">
             <strong>Base = 15 m, Altura = 10 m</strong>
+
+            <button class="btn-imagem" onclick="abrirModal('Q15')" aria-label="Ver imagem da questão">🖼️ Ver Questão</button>
             <button class="btn-revelar" aria-label="Mostrar animação do perímetro" onclick="toggleResposta(this); setTimeout(function(){ desenharBaseComMedidasQ15(); }, 50);">▶ Animação</button>
             <button class="btn-dica" aria-label="Mostrar dica" onclick="toggleDica(this)">💡 Dica</button>
             <div class="dica-texto">Perímetro = soma de todos os lados. Fórmula: 2 × (base + altura).</div>
@@ -248,6 +305,7 @@
         <p>Conte os risquinhos externos (cada lado = 1 cm).</p>
         <div class="exemplo-box">
             <strong>Figura (irregular):</strong>
+            <button class="btn-imagem" onclick="abrirModal('Q20')" aria-label="Ver imagem da questão">🖼️ Ver Questão</button>
             <button class="btn-revelar" aria-label="Mostrar animação da malha" onclick="toggleResposta(this)">▶ Animação</button>
             <button class="btn-dica" aria-label="Mostrar dica" onclick="toggleDica(this)">💡 Dica</button>
             <div class="dica-texto">Conte os risquinhos externos da figura. Cada lado do quadradinho = 1 cm.</div>
@@ -262,7 +320,6 @@
                     </div>
                     <div class="canvas-controls">
                         <button onclick="iniciarPerimetroA()" aria-label="Contar contorno">Contar Contorno</button>
-                        <button class="reset" onclick="resetarCanvasA()" aria-label="Reiniciar tudo">Reiniciar Tudo</button>
                     </div>
                     <div id="infoCanvas">Clique em uma figura</div>
                 </div>
@@ -282,6 +339,7 @@
         <p>Lembre: 1 cm = 10 mm. Multiplique por 10.</p>
         <div class="exemplo-box">
             <strong>4,5 cm em mm:</strong>
+            <button class="btn-imagem" onclick="abrirModal('Q22')" aria-label="Ver imagem da questão">🖼️ Ver Questão</button>
             <button class="btn-revelar" aria-label="Mostrar animação da lupa" onclick="toggleResposta(this)">▶ Animação</button>
             <button class="btn-dica" aria-label="Mostrar dica" onclick="toggleDica(this)">💡 Dica</button>
             <div class="dica-texto">1 cm = 10 mm. Para converter cm para mm, multiplique por 10.</div>
@@ -301,7 +359,7 @@
     <!-- BLOCO 2 -->
     <div class="block">
         <h2>🧮 Bloco 2 – Porcentagem e Geometria</h2>
-        <h3>1. Porcentagem (10%, 25%, 50%)</h3>
+        <h3>1. Porcentagem (10%, 25%, 50% - Q18)</h3>
         <ul>
             <li><strong>10%</strong> = 1/10. Ex: 10% de 780 = 78.</li>
             <li><strong>25%</strong> = 1/4. Ex: 25% de 800 = 200.</li>
@@ -309,6 +367,7 @@
         </ul>
         <div class="exemplo-box">
             <strong>Teoria das Porcentagens:</strong>
+            <button class="btn-imagem" onclick="abrirModal('Q18')" aria-label="Ver imagem da questão">🖼️ Ver Questão</button>
             <button class="btn-revelar" aria-label="Mostrar animação de porcentagem" onclick="toggleResposta(this)">▶ Animação</button>
             <button class="btn-dica" aria-label="Mostrar dica" onclick="toggleDica(this)">💡 Dica</button>
             <div class="dica-texto">10% = 1/10, 25% = 1/4, 50% = 1/2. Para calcular: divida por 10, 4 ou 2.</div>
@@ -329,6 +388,7 @@
         <h3>2. Propriedades Geométricas</h3>
         <div class="exemplo-box">
             <strong>Trapézio (Q17):</strong>
+            <button class="btn-imagem" onclick="abrirModal('Q17')" aria-label="Ver imagem da questão">🖼️ Ver Questão</button>
             <button class="btn-revelar" aria-label="Mostrar animação do trapézio" onclick="toggleResposta(this); setTimeout(function(){ animarTrapezioQ17('A'); }, 100);">▶ Animação</button>
 
             <button class="btn-dica" aria-label="Mostrar dica" onclick="toggleDica(this)">💡 Dica</button>
@@ -346,6 +406,7 @@
         </div>
         <div class="exemplo-box">
             <strong>Quadrado (Q21):</strong>
+            <button class="btn-imagem" onclick="abrirModal('Q21')" aria-label="Ver imagem da questão">🖼️ Ver Questão</button>
             <button class="btn-revelar" aria-label="Mostrar animação do quadrado" onclick="toggleResposta(this); setTimeout(function(){ resetarQuadradoQ21('A'); }, 50);">▶ Animação</button>
 
             <button class="btn-dica" aria-label="Mostrar dica" onclick="toggleDica(this)">💡 Dica</button>
@@ -369,6 +430,7 @@
         <h3>1. Divisão Exata (Q13)</h3>
         <div class="exemplo-box">
             \(3045 \div 3\)
+            <button class="btn-imagem" onclick="abrirModal('Q13')" aria-label="Ver imagem da questão">🖼️ Ver Questão</button>
             <button class="btn-revelar" aria-label="Mostrar animação da divisão" onclick="toggleResposta(this)">▶ Animação</button>
             <button class="btn-dica" aria-label="Mostrar dica" onclick="toggleDica(this)">💡 Dica</button>
             <div class="dica-texto">Divida os números passo a passo, começando da esquerda.</div>
@@ -388,6 +450,7 @@
         <p>Sequência: Total – Entrada = Saldo ; Saldo ÷ Parcelas.</p>
         <div class="exemplo-box">
             Micro-ondas R$ 390, entrada R$ 90, 6x.
+            <button class="btn-imagem" onclick="abrirModal('Q24')" aria-label="Ver imagem da questão">🖼️ Ver Questão</button>
             <button class="btn-revelar" aria-label="Mostrar animação de prestações" onclick="toggleResposta(this)">▶ Animação</button>
             <button class="btn-dica" aria-label="Mostrar dica" onclick="toggleDica(this)">💡 Dica</button>
             <div class="dica-texto">Total – Entrada = Saldo; Saldo ÷ Parcelas = valor de cada prestação.</div>
@@ -426,6 +489,14 @@
             <div id="infoLivreA">Clique nos quadrados para começar a desenhar.</div>
         </div>
     </div>
+
+<!-- ===== MODAL DE IMAGEM ===== -->
+<div id="modalImagem" class="modal">
+    <div class="modal-conteudo">
+        <span class="modal-fechar" onclick="fecharModal()">&times;</span>
+        <img id="modalImg" src="" alt="Imagem da questão" style="max-width:100%; max-height:80vh;">
+    </div>
+</div>
 
 
 <!-- ===== RODAPÉ ===== -->
@@ -467,6 +538,8 @@
 </div>
 
 <script>
+
+let contagemEmAndamento = false;
 var quadradoRotacionado = false;
 // =====================================================================
 // 1. FUNÇÕES GERAIS
@@ -516,6 +589,29 @@ function toggleDica(button) {
     }
 }
 
+// ===== MODAL DE IMAGEM =====
+function abrirModal(questao) {
+    var modal = document.getElementById('modalImagem');
+    var img = document.getElementById('modalImg');
+    img.src = 'images/' + questao + '.png';
+    img.alt = 'Imagem da questão ' + questao;
+    modal.style.display = 'block';
+}
+
+function fecharModal() {
+    document.getElementById('modalImagem').style.display = 'none';
+}
+
+// Fechar modal ao clicar fora da imagem
+window.onclick = function(event) {
+    var modal = document.getElementById('modalImagem');
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+}
+
+
+
 // =====================================================================
 // 2. CONTROLE DE ANIMAÇÕES (variáveis globais)
 // =====================================================================
@@ -554,6 +650,16 @@ const figurasData = {
 const estadoA = { figuraAtual: null };
 const canvasA = document.getElementById('meuCanvas');
 const ctxA = canvasA.getContext('2d');
+
+
+function desabilitarBotoesMalhaA(desabilitar) {
+    const container = document.querySelector('.exemplo-box:has(#meuCanvas)');
+    if (!container) return;
+    const botoes = container.querySelectorAll('.canvas-controls button');
+    botoes.forEach(btn => {
+        btn.disabled = desabilitar;
+    });
+}
 
 function desenharBase(ctx, estado) {
     ctx.clearRect(0, 0, 540, 290);
@@ -630,13 +736,23 @@ function selecionarFiguraA(figura) {
 }
 
 function iniciarPerimetroA() {
-    if (animacaoQ20) { clearTimeout(animacaoQ20); animacaoQ20 = null; }
-    if (!estadoA.figuraAtual) { document.getElementById('infoCanvas').textContent = "Selecione uma figura!"; return; }
+    if (contagemEmAndamento) {
+        document.getElementById('infoCanvas').textContent = 'Aguarde a contagem atual terminar.';
+        return;
+    }
+    if (!estadoA.figuraAtual) {
+        document.getElementById('infoCanvas').textContent = 'Selecione uma figura!';
+        return;
+    }
+    contagemEmAndamento = true;
+    desabilitarBotoesMalhaA(true);
+
     let passos = figurasData[estadoA.figuraAtual].passos;
     let i = 0;
     const info = document.getElementById('infoCanvas');
-    info.textContent = "Contando os lados...";
+    info.textContent = 'Contando os lados...';
     desenharBase(ctxA, estadoA);
+
     function animar() {
         if (i < passos.length) {
             const p = passos[i];
@@ -660,6 +776,8 @@ function iniciarPerimetroA() {
             info.textContent = `Perímetro total da Figura ${estadoA.figuraAtual}: ${passos.length} lados!`;
             atualizarTabela(estadoA.figuraAtual, 'perimetro', passos.length);
             animacaoQ20 = null;
+            contagemEmAndamento = false;
+            desabilitarBotoesMalhaA(false);
         }
     }
     animar();
