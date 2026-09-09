@@ -225,18 +225,16 @@
     <div class="block">
         <h2>📏 Bloco 1 – Perímetros e Conversões</h2>
         <h3>1. Perímetro do Retângulo (Q15)</h3>
-        <p>Fórmula: \(P = 2 \times (\text{base} + \text{altura})\)</p>
         <div class="exemplo-box">
             <strong>Base = 15 m, Altura = 10 m</strong>
-            <button class="btn-revelar" aria-label="Mostrar animação do perímetro" onclick="toggleResposta(this)">▶ Animação</button>
+            <button class="btn-revelar" aria-label="Mostrar animação do perímetro" onclick="toggleResposta(this); setTimeout(function(){ desenharBaseComMedidasQ15(); }, 50);">▶ Animação</button>
             <button class="btn-dica" aria-label="Mostrar dica" onclick="toggleDica(this)">💡 Dica</button>
             <div class="dica-texto">Perímetro = soma de todos os lados. Fórmula: 2 × (base + altura).</div>
             <div class="resposta">
                 <div class="canvas-container">
-                    <canvas id="canvasQ15" width="560" height="450"></canvas>
+                    <canvas id="canvasQ15" width="600" height="450"></canvas>
                     <div class="canvas-controls">
                         <button onclick="iniciarPerimetroQ15()" aria-label="Contar perímetro">Contar Perímetro</button>
-                        <button onclick="iniciarAreaQ15()" aria-label="Contar área">Contar Área</button>
                         <button onclick="passoAPassoQ15()" aria-label="Somando os lados">Somando os lados</button>
                         <button onclick="calcularFormulaQ15()" aria-label="Mostrar fórmula">Fórmula</button>
                         <button class="reset" onclick="resetarCanvasQ15()" aria-label="Reiniciar">Reiniciar</button>
@@ -264,18 +262,17 @@
                     </div>
                     <div class="canvas-controls">
                         <button onclick="iniciarPerimetroA()" aria-label="Contar contorno">Contar Contorno</button>
-                        <button onclick="iniciarAreaA()" aria-label="Contar área">Contar Área</button>
                         <button class="reset" onclick="resetarCanvasA()" aria-label="Reiniciar tudo">Reiniciar Tudo</button>
                     </div>
                     <div id="infoCanvas">Clique em uma figura</div>
                 </div>
                 <table class="tabela-resultados">
-                    <thead><tr><th>Figura</th><th>Perímetro</th><th>Área</th></tr></thead>
+                    <thead><tr><th>Figura</th><th>Perímetro (cm)</th></tr></thead>
                     <tbody>
-                        <tr id="linhaA"><td>A</td><td id="perA">-</td><td id="areaA">-</td></tr>
-                        <tr id="linhaB"><td>B</td><td id="perB">-</td><td id="areaB">-</td></tr>
-                        <tr id="linhaC"><td>C</td><td id="perC">-</td><td id="areaC">-</td></tr>
-                        <tr id="linhaD"><td>D</td><td id="perD">-</td><td id="areaD">-</td></tr>
+                        <tr id="linhaA"><td>A</td><td id="perA">-</td></tr>
+                        <tr id="linhaB"><td>B</td><td id="perB">-</td></tr>
+                        <tr id="linhaC"><td>C</td><td id="perC">-</td></tr>
+                        <tr id="linhaD"><td>D</td><td id="perD">-</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -332,14 +329,15 @@
         <h3>2. Propriedades Geométricas</h3>
         <div class="exemplo-box">
             <strong>Trapézio (Q17):</strong>
-            <button class="btn-revelar" aria-label="Mostrar animação do trapézio" onclick="toggleResposta(this)">▶ Animação</button>
+            <button class="btn-revelar" aria-label="Mostrar animação do trapézio" onclick="toggleResposta(this); setTimeout(function(){ animarTrapezioQ17('A'); }, 100);">▶ Animação</button>
+
             <button class="btn-dica" aria-label="Mostrar dica" onclick="toggleDica(this)">💡 Dica</button>
             <div class="dica-texto">Trapézio possui um par de lados paralelos.</div>
             <div class="resposta">
                 <div class="canvas-container">
                     <canvas id="canvasQ17" width="400" height="250"></canvas>
                     <div class="canvas-controls">
-                        <button onclick="animarTrapezioQ17('A')" aria-label="Ver paralelas">▶ Ver Paralelas</button>
+                        <button onclick="toggleParalelasTrapezio()" aria-label="Ver paralelas">▶ Ver Paralelas</button>
                         <button class="reset" onclick="resetarTrapezioQ17('A')" aria-label="Reiniciar">Reiniciar</button>
                     </div>
                     <div id="infoQ17">Clique para ver</div>
@@ -348,7 +346,8 @@
         </div>
         <div class="exemplo-box">
             <strong>Quadrado (Q21):</strong>
-            <button class="btn-revelar" aria-label="Mostrar animação do quadrado" onclick="toggleResposta(this)">▶ Animação</button>
+            <button class="btn-revelar" aria-label="Mostrar animação do quadrado" onclick="toggleResposta(this); setTimeout(function(){ resetarQuadradoQ21('A'); }, 50);">▶ Animação</button>
+
             <button class="btn-dica" aria-label="Mostrar dica" onclick="toggleDica(this)">💡 Dica</button>
             <div class="dica-texto">Quadrado tem 4 lados iguais e 4 ângulos retos.</div>
             <div class="resposta">
@@ -468,6 +467,7 @@
 </div>
 
 <script>
+var quadradoRotacionado = false;
 // =====================================================================
 // 1. FUNÇÕES GERAIS
 // =====================================================================
@@ -591,6 +591,31 @@ function desenharBase(ctx, estado) {
     }
 }
 
+function desenharBaseQ15() {
+    ctxQ15.clearRect(0, 0, canvasQ15.width, canvasQ15.height);
+    ctxQ15.fillStyle = '#e3f2fd';
+    ctxQ15.fillRect(offsetXQ15, offsetYQ15, colunasQ15 * escalaQ15, linhasQ15 * escalaQ15);
+    ctxQ15.strokeStyle = '#aaa';
+    ctxQ15.lineWidth = 0.5;
+    for (let i = 0; i <= colunasQ15; i++) {
+        ctxQ15.beginPath();
+        ctxQ15.moveTo(offsetXQ15 + i * escalaQ15, offsetYQ15);
+        ctxQ15.lineTo(offsetXQ15 + i * escalaQ15, offsetYQ15 + linhasQ15 * escalaQ15);
+        ctxQ15.stroke();
+    }
+    for (let i = 0; i <= linhasQ15; i++) {
+        ctxQ15.beginPath();
+        ctxQ15.moveTo(offsetXQ15, offsetYQ15 + i * escalaQ15);
+        ctxQ15.lineTo(offsetXQ15 + colunasQ15 * escalaQ15, offsetYQ15 + i * escalaQ15);
+        ctxQ15.stroke();
+    }
+    ctxQ15.strokeStyle = '#000';
+    ctxQ15.lineWidth = 2;
+    ctxQ15.strokeRect(offsetXQ15, offsetYQ15, colunasQ15 * escalaQ15, linhasQ15 * escalaQ15);
+}
+
+
+
 function atualizarTabela(figura, tipo, valor) {
     let idElemento = (tipo === 'perimetro' ? 'per' : 'area') + figura;
     let idLinha = 'linha' + figura;
@@ -640,36 +665,6 @@ function iniciarPerimetroA() {
     animar();
 }
 
-function iniciarAreaA() {
-    if (animacaoQ20) { clearTimeout(animacaoQ20); animacaoQ20 = null; }
-    if (!estadoA.figuraAtual) { document.getElementById('infoCanvas').textContent = "Selecione uma figura!"; return; }
-    let quadrados = figurasData[estadoA.figuraAtual].squares;
-    let i = 0;
-    const info = document.getElementById('infoCanvas');
-    info.textContent = "Contando quadradinhos...";
-    desenharBase(ctxA, estadoA);
-    function animar() {
-        if (i < quadrados.length) {
-            const q = quadrados[i];
-            ctxA.fillStyle = 'rgba(0, 123, 255, 0.5)';
-            ctxA.fillRect(offset + q.x * escala, offset + q.y * escala, escala, escala);
-            ctxA.fillStyle = '#003366';
-            ctxA.font = 'bold 20px Arial';
-            ctxA.textAlign = 'center';
-            ctxA.textBaseline = 'middle';
-            ctxA.fillText(i + 1, offset + q.x * escala + escala/2, offset + q.y * escala + escala/2);
-            info.textContent = `Figura ${estadoA.figuraAtual}: Quadradinho ${i + 1}`;
-            i++;
-            animacaoQ20 = setTimeout(animar, 250);
-        } else {
-            info.textContent = `Área total da Figura ${estadoA.figuraAtual}: ${quadrados.length} quadrados!`;
-            atualizarTabela(estadoA.figuraAtual, 'area', quadrados.length);
-            animacaoQ20 = null;
-        }
-    }
-    animar();
-}
-
 function resetarCanvasA() {
     if (animacaoQ20) { clearTimeout(animacaoQ20); animacaoQ20 = null; }
     estadoA.figuraAtual = null;
@@ -686,15 +681,50 @@ const escalaQ15 = 30; const offsetXQ15 = 20; const offsetYQ15 = 60; const coluna
 const canvasQ15 = document.getElementById('canvasQ15');
 const ctxQ15 = canvasQ15.getContext('2d');
 
-function desenharBaseQ15() {
-    ctxQ15.clearRect(0, 0, 560, 450);
-    ctxQ15.fillStyle = '#e3f2fd';
-    ctxQ15.fillRect(offsetXQ15, offsetYQ15, colunasQ15 * escalaQ15, linhasQ15 * escalaQ15);
-    ctxQ15.strokeStyle = '#aaa'; ctxQ15.lineWidth = 0.5;
-    for (let i = 0; i <= colunasQ15; i++) { ctxQ15.beginPath(); ctxQ15.moveTo(offsetXQ15 + i * escalaQ15, offsetYQ15); ctxQ15.lineTo(offsetXQ15 + i * escalaQ15, offsetYQ15 + linhasQ15 * escalaQ15); ctxQ15.stroke(); }
-    for (let i = 0; i <= linhasQ15; i++) { ctxQ15.beginPath(); ctxQ15.moveTo(offsetXQ15, offsetYQ15 + i * escalaQ15); ctxQ15.lineTo(offsetXQ15 + colunasQ15 * escalaQ15, offsetYQ15 + i * escalaQ15); ctxQ15.stroke(); }
-    ctxQ15.strokeStyle = '#000'; ctxQ15.lineWidth = 2;
-    ctxQ15.strokeRect(offsetXQ15, offsetYQ15, colunasQ15 * escalaQ15, linhasQ15 * escalaQ15);
+function desenharBaseComMedidasQ15() {
+    // Desenha a malha base
+    desenharBaseQ15();
+
+    // Cores e estilo
+    var corBase = '#007bff';   // azul
+    var corAltura = '#28a745'; // verde
+    var larguraLinha = 4;
+
+    // Desenha a base inferior (15 m) com destaque
+    ctxQ15.strokeStyle = corBase;
+    ctxQ15.lineWidth = larguraLinha;
+    ctxQ15.beginPath();
+    ctxQ15.moveTo(offsetXQ15, offsetYQ15 + linhasQ15 * escalaQ15);
+    ctxQ15.lineTo(offsetXQ15 + colunasQ15 * escalaQ15, offsetYQ15 + linhasQ15 * escalaQ15);
+    ctxQ15.stroke();
+
+    // Escreve "Base = 15 m" no meio da base inferior
+    var meioXBase = offsetXQ15 + (colunasQ15 * escalaQ15) / 2;
+    var meioYBase = offsetYQ15 + linhasQ15 * escalaQ15 + 35;
+    ctxQ15.fillStyle = corBase;
+    ctxQ15.font = 'bold 20px Arial';
+    ctxQ15.textAlign = 'center';
+    ctxQ15.textBaseline = 'middle';
+    ctxQ15.fillText('Base = 15 m', meioXBase, meioYBase);
+
+    // Desenha a altura direita (10 m) com destaque
+    ctxQ15.strokeStyle = corAltura;
+    ctxQ15.lineWidth = larguraLinha;
+    ctxQ15.beginPath();
+    ctxQ15.moveTo(offsetXQ15 + colunasQ15 * escalaQ15, offsetYQ15);
+    ctxQ15.lineTo(offsetXQ15 + colunasQ15 * escalaQ15, offsetYQ15 + linhasQ15 * escalaQ15);
+    ctxQ15.stroke();
+
+    // Escreve "Altura = 10 m" no meio da altura direita
+    var meioXAltura = offsetXQ15 + colunasQ15 * escalaQ15 + 40;
+    var meioYAltura = offsetYQ15 + (linhasQ15 * escalaQ15) / 2 - 50;
+    ctxQ15.fillStyle = corAltura;
+    ctxQ15.font = 'bold 20px Arial';
+    ctxQ15.textAlign = 'center';
+    ctxQ15.textBaseline = 'middle';
+    ctxQ15.fillText('Altura = 10 m', meioXAltura, meioYAltura);
+
+    document.getElementById('infoCanvasQ15').textContent = 'Retângulo: Base = 15 m, Altura = 10 m.';
 }
 
 function iniciarPerimetroQ15() {
@@ -703,13 +733,16 @@ function iniciarPerimetroQ15() {
         else { clearTimeout(animacaoQ15); }
         animacaoQ15 = null;
     }
-    resetarCanvasQ15();
+    // Desenha a base e altura com identificação
+    desenharBaseComMedidasQ15();
+    
     let i = 0;
     let passos = [];
     for (let x = 0; x < colunasQ15; x++) passos.push({x1: x, y1: 0, x2: x+1, y2: 0});
     for (let y = 0; y < linhasQ15; y++) passos.push({x1: 15, y1: y, x2: 15, y2: y+1});
     for (let x = colunasQ15; x > 0; x--) passos.push({x1: x, y1: 10, x2: x-1, y2: 10});
     for (let y = linhasQ15; y > 0; y--) passos.push({x1: 0, y1: y, x2: 0, y2: y-1});
+    
     function animar() {
         if (i < passos.length) {
             const p = passos[i];
@@ -737,107 +770,129 @@ function iniciarPerimetroQ15() {
     animar();
 }
 
-function iniciarAreaQ15() {
+
+function passoAPassoQ15() {
+    // Cancela animação anterior
     if (animacaoQ15) {
-        if (Array.isArray(animacaoQ15)) { animacaoQ15.forEach(t => clearTimeout(t)); }
-        else { clearTimeout(animacaoQ15); }
+        if (Array.isArray(animacaoQ15)) {
+            animacaoQ15.forEach(t => clearTimeout(t));
+        } else {
+            clearTimeout(animacaoQ15);
+        }
         animacaoQ15 = null;
     }
     resetarCanvasQ15();
-    let i = 0;
-    const total = colunasQ15 * linhasQ15;
-    function animar() {
-        if (i < total) {
-            let linha = Math.floor(i / colunasQ15);
-            let coluna = i % colunasQ15;
-            ctxQ15.fillStyle = 'rgba(0, 123, 255, 0.5)';
-            ctxQ15.fillRect(offsetXQ15 + coluna * escalaQ15, offsetYQ15 + linha * escalaQ15, escalaQ15, escalaQ15);
-            ctxQ15.fillStyle = '#003366';
-            ctxQ15.font = 'bold 14px Arial';
+
+    // Cores e estilo
+    var corBase = '#007bff';   // azul
+    var corAltura = '#28a745'; // verde
+    var larguraLinha = 6;
+
+    // Define os quatro lados com seus valores e posições
+    var passosAnimacao = [];
+    // Lado superior (base 1) - 15 m
+    passosAnimacao.push({
+        x1: offsetXQ15, y1: offsetYQ15,
+        x2: offsetXQ15 + colunasQ15 * escalaQ15, y2: offsetYQ15,
+        cor: corBase, valor: '15 m'
+    });
+    // Lado inferior (base 2) - 15 m
+    passosAnimacao.push({
+        x1: offsetXQ15, y1: offsetYQ15 + linhasQ15 * escalaQ15,
+        x2: offsetXQ15 + colunasQ15 * escalaQ15, y2: offsetYQ15 + linhasQ15 * escalaQ15,
+        cor: corBase, valor: '15 m'
+    });
+    // Lado direito (altura 1) - 10 m
+    passosAnimacao.push({
+        x1: offsetXQ15 + colunasQ15 * escalaQ15, y1: offsetYQ15,
+        x2: offsetXQ15 + colunasQ15 * escalaQ15, y2: offsetYQ15 + linhasQ15 * escalaQ15,
+        cor: corAltura, valor: '10 m'
+    });
+    // Lado esquerdo (altura 2) - 10 m
+    passosAnimacao.push({
+        x1: offsetXQ15, y1: offsetYQ15,
+        x2: offsetXQ15, y2: offsetYQ15 + linhasQ15 * escalaQ15,
+        cor: corAltura, valor: '10 m'
+    });
+
+    var index = 0;
+    var info = document.getElementById('infoCanvasQ15');
+
+    function desenharProximoLado() {
+        if (index < passosAnimacao.length) {
+            var p = passosAnimacao[index];
+
+            // Desenha o lado com a cor correspondente
+            ctxQ15.strokeStyle = p.cor;
+            ctxQ15.lineWidth = larguraLinha;
+            ctxQ15.beginPath();
+            ctxQ15.moveTo(p.x1, p.y1);
+            ctxQ15.lineTo(p.x2, p.y2);
+            ctxQ15.stroke();
+
+            // Escreve o valor no meio do lado
+            var meioX = (p.x1 + p.x2) / 2;
+            var meioY = (p.y1 + p.y2) / 2;
+            ctxQ15.fillStyle = p.cor;
+            ctxQ15.font = 'bold 22px Arial';
             ctxQ15.textAlign = 'center';
             ctxQ15.textBaseline = 'middle';
-            ctxQ15.fillText(i + 1, offsetXQ15 + coluna * escalaQ15 + escalaQ15/2, offsetYQ15 + linha * escalaQ15 + escalaQ15/2);
-            document.getElementById('infoCanvasQ15').textContent = `Quadradinho ${i + 1} de ${total}`;
-            i++;
-            animacaoQ15 = setTimeout(animar, 20);
+
+            // Ajusta a posição para não sobrepor a linha
+            if (p.y1 === p.y2) {
+                // Linha horizontal → coloca o número acima
+                meioY -= 25;
+            } else {
+                // Linha vertical → coloca o número à direita
+                meioX += 25;
+            }
+            ctxQ15.fillText(p.valor, meioX, meioY);
+
+            // Atualiza mensagem informativa
+            var ladoNome = (p.cor === corBase) ? 'Base' : 'Altura';
+            info.textContent = 'Lado ' + (index+1) + ' (' + ladoNome + '): ' + p.valor;
+
+            index++;
+            animacaoQ15 = setTimeout(desenharProximoLado, 700);
         } else {
-            document.getElementById('infoCanvasQ15').textContent = `Área total: ${total} quadrados (150 m²)`;
+            // Todos os lados desenhados → mostra as somas
+            ctxQ15.font = 'bold 24px Arial';
+            ctxQ15.textAlign = 'left';
+            ctxQ15.textBaseline = 'alphabetic';
+            var xTexto = 30, yTexto = 90;
+
+            ctxQ15.fillStyle = corBase;
+            ctxQ15.fillText('15 + 15 = 30', xTexto, yTexto);
+            yTexto += 35;
+
+            ctxQ15.fillStyle = corAltura;
+            ctxQ15.fillText('10 + 10 = 20', xTexto, yTexto);
+            yTexto += 45;
+
+            ctxQ15.fillStyle = '#000';
+            ctxQ15.font = 'bold 28px Arial';
+            ctxQ15.fillText('Perímetro = 30 + 20 = 50 m', xTexto, yTexto);
+
+            info.textContent = 'Perímetro total: 50 m';
             animacaoQ15 = null;
         }
     }
-    animar();
+
+    // Inicia a animação
+    desenharProximoLado();
 }
 
-function passoAPassoQ15() {
+function calcularFormulaQ15() {
+    // Cancela animação anterior
     if (animacaoQ15) {
         if (Array.isArray(animacaoQ15)) { animacaoQ15.forEach(t => clearTimeout(t)); }
         else { clearTimeout(animacaoQ15); }
         animacaoQ15 = null;
     }
-    resetarCanvasQ15();
-    let timeouts = [];
-    timeouts.push(setTimeout(() => {
-        ctxQ15.strokeStyle = '#003366';
-        ctxQ15.lineWidth = 6;
-        ctxQ15.beginPath();
-        ctxQ15.moveTo(offsetXQ15, offsetYQ15);
-        ctxQ15.lineTo(offsetXQ15 + colunasQ15 * escalaQ15, offsetYQ15);
-        ctxQ15.stroke();
-    }, 0));
-    timeouts.push(setTimeout(() => {
-        ctxQ15.strokeStyle = '#003366';
-        ctxQ15.beginPath();
-        ctxQ15.moveTo(offsetXQ15, offsetYQ15 + linhasQ15 * escalaQ15);
-        ctxQ15.lineTo(offsetXQ15 + colunasQ15 * escalaQ15, offsetYQ15 + linhasQ15 * escalaQ15);
-        ctxQ15.stroke();
-    }, 500));
-    timeouts.push(setTimeout(() => {
-        ctxQ15.strokeStyle = '#28a745';
-        ctxQ15.beginPath();
-        ctxQ15.moveTo(offsetXQ15 + colunasQ15 * escalaQ15, offsetYQ15);
-        ctxQ15.lineTo(offsetXQ15 + colunasQ15 * escalaQ15, offsetYQ15 + linhasQ15 * escalaQ15);
-        ctxQ15.stroke();
-    }, 1000));
-    timeouts.push(setTimeout(() => {
-        ctxQ15.strokeStyle = '#28a745';
-        ctxQ15.beginPath();
-        ctxQ15.moveTo(offsetXQ15, offsetYQ15);
-        ctxQ15.lineTo(offsetXQ15, offsetYQ15 + linhasQ15 * escalaQ15);
-        ctxQ15.stroke();
-    }, 1500));
-    timeouts.push(setTimeout(() => {
-        ctxQ15.font = 'bold 22px Arial';
-        ctxQ15.textAlign = 'left';
-        ctxQ15.fillStyle = '#003366';
-        ctxQ15.fillText('15 + 15 = 30', 30, 120);
-    }, 2000));
-    timeouts.push(setTimeout(() => {
-        ctxQ15.fillStyle = '#28a745';
-        ctxQ15.fillText('10 + 10 = 20', 30, 150);
-    }, 2500));
-    timeouts.push(setTimeout(() => {
-        ctxQ15.font = 'bold 26px Arial';
-        let x = 30, y = 190;
-        ctxQ15.fillStyle = '#003366';
-        ctxQ15.fillText('30', x, y);
-        x += ctxQ15.measureText('30').width;
-        ctxQ15.fillStyle = '#000';
-        ctxQ15.fillText(' + ', x, y);
-        x += ctxQ15.measureText(' + ').width;
-        ctxQ15.fillStyle = '#28a745';
-        ctxQ15.fillText('20', x, y);
-        x += ctxQ15.measureText('20').width;
-        ctxQ15.fillStyle = '#000';
-        ctxQ15.fillText(' = ', x, y);
-        x += ctxQ15.measureText(' = ').width;
-        ctxQ15.fillStyle = '#000';
-        ctxQ15.fillText('50', x, y);
-    }, 3000));
-    animacaoQ15 = timeouts;
-}
-
-function calcularFormulaQ15() {
-    resetarCanvasQ15();
+    // Desenha a base e altura com identificação
+    desenharBaseComMedidasQ15();
+    
+    // Adiciona a fórmula
     ctxQ15.strokeStyle = '#ff9800';
     ctxQ15.lineWidth = 6;
     ctxQ15.beginPath();
@@ -846,21 +901,23 @@ function calcularFormulaQ15() {
     ctxQ15.stroke();
     ctxQ15.fillStyle = '#003366';
     ctxQ15.font = 'bold 18px Arial';
-    ctxQ15.textAlign = 'center';
-    ctxQ15.fillText('BASE = 15', offsetXQ15 + (colunasQ15 * escalaQ15)/2, offsetYQ15 + linhasQ15 * escalaQ15 + 25);
+   
+    
     ctxQ15.strokeStyle = '#4caf50';
     ctxQ15.beginPath();
     ctxQ15.moveTo(offsetXQ15 + colunasQ15 * escalaQ15, offsetYQ15);
     ctxQ15.lineTo(offsetXQ15 + colunasQ15 * escalaQ15, offsetYQ15 + linhasQ15 * escalaQ15);
     ctxQ15.stroke();
-    ctxQ15.fillStyle = '#4caf50';
-    ctxQ15.fillText('ALT = 10', offsetXQ15 + colunasQ15 * escalaQ15 + 20, offsetYQ15 + (linhasQ15 * escalaQ15)/2);
+   
+    
     ctxQ15.fillStyle = '#003366';
     ctxQ15.font = 'bold 22px Arial';
     ctxQ15.textAlign = 'left';
     ctxQ15.fillText('P = 2 × (15 + 10)', 30, 150);
     ctxQ15.fillText('P = 2 × 25', 30, 180);
     ctxQ15.fillText('P = 50 m', 30, 210);
+    
+    document.getElementById('infoCanvasQ15').textContent = 'Fórmula do perímetro aplicada!';
 }
 
 function resetarCanvasQ15() {
@@ -869,8 +926,9 @@ function resetarCanvasQ15() {
         else { clearTimeout(animacaoQ15); }
         animacaoQ15 = null;
     }
-    document.getElementById('infoCanvasQ15').textContent = "Clique em uma opção.";
-    desenharBaseQ15();
+    document.getElementById('infoCanvasQ15').textContent = "Retângulo: Base = 15 m, Altura = 10 m.";
+    // Desenha a malha com as medidas
+    desenharBaseComMedidasQ15();
 }
 
 // =====================================================================
@@ -1014,12 +1072,17 @@ function resetarTeoriaPorc(turma) {
 // =====================================================================
 // 7. TRAPÉZIO (Q17)
 // =====================================================================
+// Estado para controlar a exibição das paralelas
+var paralelasVisiveis = false;
+
 function animarTrapezioQ17(turma) {
     var canvasId = turma === 'A' ? 'canvasQ17' : 'canvasQ17B';
     var infoId = turma === 'A' ? 'infoQ17' : 'infoQ17B';
     var canvas = document.getElementById(canvasId);
     var ctx = canvas.getContext('2d');
     var info = document.getElementById(infoId);
+    
+    // Desenha o trapézio base (sem paralelas destacadas)
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.strokeStyle = '#333';
     ctx.lineWidth = 3;
@@ -1036,78 +1099,185 @@ function animarTrapezioQ17(turma) {
     ctx.fillText('B', 310, 50);
     ctx.fillText('C', 360, 210);
     ctx.fillText('D', 40, 210);
-    ctx.strokeStyle = '#e74c3c';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([5, 5]);
+    
+    // Inicialmente, as paralelas estão invisíveis
+    paralelasVisiveis = false;
+    info.textContent = "Trapézio desenhado. Clique em 'Ver Paralelas' para destacar.";
+}
+
+function toggleParalelasTrapezio() {
+    var canvasId = 'canvasQ17';
+    var infoId = 'infoQ17';
+    var canvas = document.getElementById(canvasId);
+    var ctx = canvas.getContext('2d');
+    var info = document.getElementById(infoId);
+    
+    // Redesenha o trapézio base (sem paralelas) para não sobrepor
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.moveTo(0, 60);
-    ctx.lineTo(400, 60);
+    ctx.moveTo(100, 60);
+    ctx.lineTo(300, 60);
+    ctx.lineTo(350, 200);
+    ctx.lineTo(50, 200);
+    ctx.closePath();
     ctx.stroke();
-    ctx.strokeStyle = '#3498db';
-    ctx.beginPath();
-    ctx.moveTo(0, 200);
-    ctx.lineTo(400, 200);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle = '#003366';
-    ctx.font = 'bold 14px Arial';
-    ctx.fillText('AB (paralelo)', 160, 50);
-    ctx.fillStyle = '#003366';
-    ctx.fillText('DC (paralelo)', 160, 215);
-    info.textContent = "AB e DC são paralelos!";
+    ctx.fillStyle = '#000';
+    ctx.font = 'bold 16px Arial';
+    ctx.fillText('A', 90, 50);
+    ctx.fillText('B', 310, 50);
+    ctx.fillText('C', 360, 210);
+    ctx.fillText('D', 40, 210);
+    
+    // Alterna a visibilidade das paralelas
+    paralelasVisiveis = !paralelasVisiveis;
+    if (paralelasVisiveis) {
+        // Desenha as linhas tracejadas e textos
+        ctx.strokeStyle = '#e74c3c';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        ctx.moveTo(0, 60);
+        ctx.lineTo(400, 60);
+        ctx.stroke();
+        ctx.strokeStyle = '#3498db';
+        ctx.beginPath();
+        ctx.moveTo(0, 200);
+        ctx.lineTo(400, 200);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#e74c3c';
+        ctx.font = 'bold 14px Arial';
+        ctx.fillText('AB (paralelo)', 160, 50);
+        ctx.fillStyle = '#3498db';
+        ctx.fillText('DC (paralelo)', 160, 215);
+        info.textContent = "AB e DC são paralelos!";
+    } else {
+        info.textContent = "Paralelas ocultadas. Clique em 'Ver Paralelas' para mostrar.";
+    }
 }
 
 function resetarTrapezioQ17(turma) {
-    var canvasId = turma === 'A' ? 'canvasQ17' : 'canvasQ17B';
-    var canvas = document.getElementById(canvasId);
-    var ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Apenas redesenha o trapézio base e reseta o estado
+    if (turma === 'A') {
+        animarTrapezioQ17('A');
+    }
 }
 
-// =====================================================================
-// 8. QUADRADO (Q21)
-// =====================================================================
-function girarQuadradoQ21(turma) {
+function resetarQuadradoQ21(turma) {
     var canvasId = turma === 'A' ? 'canvasQ21' : 'canvasQ21B';
     var infoId = turma === 'A' ? 'infoQ21' : 'infoQ21B';
     var canvas = document.getElementById(canvasId);
     var ctx = canvas.getContext('2d');
     var info = document.getElementById(infoId);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.save();
-    ctx.translate(125, 125);
-    ctx.rotate(Math.PI / 4);
+    
+    // Desenha o quadrado sem rotação
+    var x = 45, y = 45, lado = 160;
     ctx.fillStyle = '#e3f2fd';
     ctx.strokeStyle = '#0077be';
     ctx.lineWidth = 4;
-    ctx.fillRect(-80, -80, 160, 160);
-    ctx.strokeRect(-80, -80, 160, 160);
-    ctx.strokeStyle = '#003366';
+    ctx.fillRect(x, y, lado, lado);
+    ctx.strokeRect(x, y, lado, lado);
+    
+    // Símbolos de ângulo reto
+    var tam = 15;
+    ctx.strokeStyle = '#d32f2f';
     ctx.lineWidth = 2;
-    ctx.strokeRect(-80, -80, 20, 20);
-    ctx.strokeRect(60, -80, 20, 20);
-    ctx.strokeRect(-80, 60, 20, 20);
-    ctx.strokeRect(60, 60, 20, 20);
-    ctx.restore();
+    ctx.strokeRect(x + 5, y + 5, tam, tam);
+    ctx.strokeRect(x + lado - tam - 5, y + 5, tam, tam);
+    ctx.strokeRect(x + 5, y + lado - tam - 5, tam, tam);
+    ctx.strokeRect(x + lado - tam - 5, y + lado - tam - 5, tam, tam);
+    
+    // Texto "Quadrado" abaixo
     ctx.fillStyle = '#003366';
     ctx.font = 'bold 18px Arial';
     ctx.textAlign = 'center';
-    ctx.fillText('Quadrado', 125, 130);
-    info.textContent = "Girou 45°!";
+    ctx.textBaseline = 'middle';
+    ctx.fillText('Quadrado', 125, 125);
+    
+    // Atualiza estado
+    quadradoRotacionado = false;
+    var botao = document.getElementById('btnGirarQuadrado' + turma);
+    if (botao) botao.textContent = '▶ Girar 45°';
+    info.textContent = "Clique em 'Girar 45°' para ver a rotação.";
 }
 
-function resetarQuadradoQ21(turma) {
+function girarQuadradoQ21(turma) {
     var canvasId = turma === 'A' ? 'canvasQ21' : 'canvasQ21B';
+    var infoId = turma === 'A' ? 'infoQ21' : 'infoQ21B';
     var canvas = document.getElementById(canvasId);
     var ctx = canvas.getContext('2d');
+    var info = document.getElementById(infoId);
+    var botao = document.getElementById('btnGirarQuadrado' + turma);
+    
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#e3f2fd';
-    ctx.strokeStyle = '#0077be';
-    ctx.lineWidth = 4;
-    ctx.fillRect(45, 45, 160, 160);
-    ctx.strokeRect(45, 45, 160, 160);
+    
+    var lado = 160;
+    var x, y;
+    
+    if (!quadradoRotacionado) {
+        // Rotaciona 45°
+        ctx.save();
+        ctx.translate(125, 125);
+        ctx.rotate(Math.PI / 4);
+        x = -lado/2;
+        y = -lado/2;
+        ctx.fillStyle = '#e3f2fd';
+        ctx.strokeStyle = '#0077be';
+        ctx.lineWidth = 4;
+        ctx.fillRect(x, y, lado, lado);
+        ctx.strokeRect(x, y, lado, lado);
+        
+        // Ângulos retos (rotacionados)
+        var tam = 15;
+        ctx.strokeStyle = '#d32f2f';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x + 5, y + 5, tam, tam);
+        ctx.strokeRect(x + lado - tam - 5, y + 5, tam, tam);
+        ctx.strokeRect(x + 5, y + lado - tam - 5, tam, tam);
+        ctx.strokeRect(x + lado - tam - 5, y + lado - tam - 5, tam, tam);
+        
+        ctx.restore();
+        // Texto após rotação (agora embaixo do quadrado)
+        ctx.fillStyle = '#003366';
+        ctx.font = 'bold 18px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        ctx.fillText('Quadrado (45°)', 125, 125);
+        
+        quadradoRotacionado = true;
+        if (botao) botao.textContent = '🔄 Voltar 0°';
+        info.textContent = "Girou 45°! Clique em 'Voltar 0°' para retornar.";
+    } else {
+        // Volta à posição inicial
+        ctx.fillStyle = '#e3f2fd';
+        ctx.strokeStyle = '#0077be';
+        ctx.lineWidth = 4;
+        x = 45; y = 45;
+        ctx.fillRect(x, y, lado, lado);
+        ctx.strokeRect(x, y, lado, lado);
+        
+        var tam = 15;
+        ctx.strokeStyle = '#d32f2f';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x + 5, y + 5, tam, tam);
+        ctx.strokeRect(x + lado - tam - 5, y + 5, tam, tam);
+        ctx.strokeRect(x + 5, y + lado - tam - 5, tam, tam);
+        ctx.strokeRect(x + lado - tam - 5, y + lado - tam - 5, tam, tam);
+        
+        ctx.fillStyle = '#003366';
+        ctx.font = 'bold 18px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('Quadrado', 125, 125);
+        
+        quadradoRotacionado = false;
+        if (botao) botao.textContent = '▶ Girar 45°';
+        info.textContent = "Voltou à posição inicial.";
+    }
 }
-
 // =====================================================================
 // 9. DIVISÃO EXATA (Q13)
 // =====================================================================
